@@ -81,8 +81,12 @@ playerList: {
 }));
 
 export const LobbyPage = (props) => {
-  const names = props.names
   const classes = useStyles();
+  const id = props.id
+  const names = props.names
+  const socket = props.socket
+  const is_host = props.is_host
+
   return (
     <div className={classes.root}>
       <Container className={classes.containerItems}>
@@ -109,7 +113,7 @@ export const LobbyPage = (props) => {
         </Typography>
         </Paper>
         <ButtonGroup className={classes.buttonGroup} fullWidth="True" >
-            <Button>
+            <Button disabled={!is_host} onClick={_ => socket.emit("start", {id})}>
                 Play!
             </Button>
         </ButtonGroup>

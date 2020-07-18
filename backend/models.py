@@ -8,10 +8,9 @@ class Player:
         self.points: int = 0
 
 class Session:
-    def __init__(self, id_: str, name: str, host: str):
-        self.name: str = name
+    def __init__(self, id_: str, name: str):
+        self.host: str = name
         self.id_: str = id_
-        self.host: str = host
         self.participants: Dict[str, Player] = {}
         self.started = Event()
         self.current_turn = None

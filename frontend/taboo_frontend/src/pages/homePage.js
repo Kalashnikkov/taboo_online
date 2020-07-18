@@ -78,7 +78,7 @@ export const HomePage = (props) => {
         console.error("Could not find that room");
       } else {
         const data = await resp.json();
-        window.localStorage.setItem("name", name)
+        window.sessionStorage.setItem("name", name)
         history.push(`/taboo/${data.id}`);
       }
     })
@@ -112,7 +112,7 @@ export const HomePage = (props) => {
             <Button
               component={Link}
               to={"/taboo/" + room}
-              onClick={() => window.localStorage.setItem("name", name) }
+              onClick={() => window.sessionStorage.setItem("name", name) }
             >
               Join
             </Button>

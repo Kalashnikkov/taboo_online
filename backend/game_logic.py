@@ -18,6 +18,7 @@ class Turn:
         self.unanswered_players: List[Player] = list(filter(lambda x: x.name != current_speaker.name, session.participants.values()))
         session.current_turn = self
         self.time_left = ROUND_TIME
+        self.answer_event = Event()
 
 async def timer_routine() -> None:
     await sleep(delay=60)

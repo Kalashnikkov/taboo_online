@@ -25,7 +25,7 @@ def host(request) -> str:
     if type(data) == dict:
         name = data["name"]
         id_ = data["id"]
-        session = Session(id_, name, id_)
+        session = Session(id_, name)
         sessions[id_] = session
         asyncio.create_task(lobby(session, socket))
         return json({"id": id_})
@@ -52,12 +52,11 @@ async def on_join(sid, data):
 
 @socket.on('start')
 async def on_start(sid, data):
-    name: str = data["name"]
     id_: str = data["id"]
     session = sessions[id_]
-    if session.name == name:
-        session.started.set()
-        await socket.emit("started", room=id_)
+    # if session.name == name:
+    session.started.set()
+    await socket.emit("started", room=id_)
 
 @socket.on('answer')
 async def on_answer(sid, data):

@@ -13,25 +13,30 @@ export const PlayPage = props => {
     const [socket, setSocket] = useState(null)
     const history = useHistory()
     const id = route.params.id;
-    const name = window.localStorage.getItem("name");
+    const name = window.sessionStorage.getItem("name");
+    const [is_host, setHost] = useState(false)
 
     useEffect(() => {
         if (socket == null) {
-            console.log("Not Yet Emitted")
             const socket_ = socketio(API_ENDPOINT, {
                 transports: ['websocket', 'polling', 'flashsocket']
             });
-            socket_.on("joined", (data) => setState((old) => {
-                if (old.state !== "lobby") {
-                    return { state: "lobby", names: [data["name"]] }
-                } else if (!old.names.includes(data["name"])) {
-                    return { state: "lobby", names: [...old.names, data["name"]] }
+            socket_.on("joined", (data) => {
+                if (data.name === name && data.is_host) {
+                    setHost(true)
                 }
-                return old
-            }));
+                setState((old) => {
+                    if (old.state !== "lobby") {
+                        return { state: "lobby", names: [data["name"]] }
+                    } else if (!old.names.includes(data["name"])) {
+                        return { state: "lobby", names: [...old.names, data["name"]] }
+                    }
+                    return old
+                }
+            )})
             socket_.on("room-does-not-exist", (_) => setState({state: "redirecting"}))
+            socket_.on("started", _ => setState({state: "game"}))
             socket_.emit('join', {"name": name, "id": route.params.id})
-            console.log("Emitted");
             setSocket(socket_)
         }
     }, [socket])
@@ -47,6 +52,6 @@ export const PlayPage = props => {
     } else if (state.state === "win") {
         return <WinPage/>;
     } else if (state.state === "lobby") {
-        return <LobbyPage names={state.names} />;
+        return <LobbyPage socket={socket} names={state.names} id={id} is_host={is_host} />;
     }
 }
