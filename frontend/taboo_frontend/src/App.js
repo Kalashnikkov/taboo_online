@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HomePage } from './pages/homePage';
 import { PlayPage } from './pages/playPage';
 import {
@@ -9,11 +9,13 @@ import {
 } from "react-router-dom";
 
 function App() {
+  const [name, setName] = useState("");
+
   return (
     <Router>
       <Switch>
-        <HomePage exact path='/'/>
-        <PlayPage exact path='/:id'/>
+        <HomePage exact path='/' setName={setName}/>
+        <PlayPage exact path='/:id' name={name}/>
       </Switch>
     </Router>
   );

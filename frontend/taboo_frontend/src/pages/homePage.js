@@ -49,7 +49,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const HomePage = () => {
+export const HomePage = props => {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
@@ -87,7 +87,7 @@ export const HomePage = () => {
             <Button component={Link} to={room}>
                 Create
             </Button>
-            <Button component={Link} to={room}>
+            <Button component={Link} to={room} onClick={() => props.setName(name)}>
                 Join
             </Button>
         </ButtonGroup>
