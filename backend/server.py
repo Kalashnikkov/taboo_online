@@ -77,5 +77,4 @@ def on_answer(data):
 
 
 if __name__ == '__main__':
-    # socket.run(app)
-    app.run(host='0.0.0.0', port=80)
+    socket.run(app, host='0.0.0.0', port=80)
