@@ -1,10 +1,10 @@
 import React from 'react';
 
 
-export const WinPage = () => {    
+export const GamePage = () => {    
     return (
         <div>
-            Win
+            Game
         </div>
     );
 };

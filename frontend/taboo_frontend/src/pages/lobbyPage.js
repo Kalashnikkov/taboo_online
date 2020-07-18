@@ -1,10 +1,10 @@
 import React from 'react';
 
 
-export const WinPage = () => {    
+export const LobbyPage = () => {    
     return (
         <div>
-            Win
+            Lobby
         </div>
     );
 };
