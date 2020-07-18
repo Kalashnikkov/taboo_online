@@ -40,8 +40,9 @@ async def lobby(session: Session):
     for p in session.participants.keys():
         player: Player = session.participants[p]
         turn: Turn = Turn(player, session)
+        send(dumps({"round_started": {}}), json=True, room=session.id_)
         await run_turn(turn)
-        send(dumps({}), json=True, room=session.id_)
+        send(dumps({"round_ended": {p.name:p.points for p in session.participants.values()}}), json=True, room=session.id_)
     pass
 
 def answer(session: Session, guess: str, name: str) -> bool:
