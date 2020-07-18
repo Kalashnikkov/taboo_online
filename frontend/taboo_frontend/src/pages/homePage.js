@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import {
   makeStyles,
   Container,
@@ -7,49 +7,61 @@ import {
   TextField,
   Button,
   ButtonGroup,
-} from '@material-ui/core';
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   root: {
-    background: '#535c68',
-    backgroundSize: 'cover',
-    height: '100vh',
-    overflow: 'hidden',
+    background: "#535c68",
+    backgroundSize: "cover",
+    height: "100vh",
+    overflow: "hidden",
   },
   containerItems: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   paperLayout: {
-    width: '50%',
-    margin: '15%',
-    display: 'flex',
-    flexDirection: 'column',
-    textAlign: 'center',
-    alignItems: 'center',
-    color: '#130f40',
+    width: "50%",
+    margin: "15%",
+    display: "flex",
+    flexDirection: "column",
+    textAlign: "center",
+    alignItems: "center",
+    color: "#130f40",
   },
   buttonLogin: {
-    margin: '5%',
+    margin: "5%",
   },
   textInput: {
-    width: '75%',
-    marginTop: '2.5%',
-    marginBottom: '2.5%'
+    width: "75%",
+    marginTop: "2.5%",
+    marginBottom: "2.5%",
   },
   title: {
-    margin: '5%',
+    margin: "5%",
   },
   buttonGroup: {
-      width: '75%',
-      marginTop: '2.5%',
-      marginBottom: '5%',
-  }
+    width: "75%",
+    marginTop: "2.5%",
+    marginBottom: "5%",
+  },
 }));
 
-export const HomePage = () => {
+export const HomePage = (props) => {
   const classes = useStyles();
+  const [name, setName] = useState("");
+  const [room, setRoom] = useState("");
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleRoomChange = (event) => {
+    setRoom(event.target.value);
+  };
+
   return (
     <div className={classes.root}>
       <Container className={classes.containerItems}>
@@ -59,24 +71,30 @@ export const HomePage = () => {
           </Typography>
           <TextField
             className={classes.textInput}
-            id="outlined-helperText"
+            id="name-input"
             label="Name"
             variant="outlined"
-        />
-        <TextField
+            onChange={handleNameChange}
+          />
+          <TextField
             className={classes.textInput}
-            id="outlined-helperText"
+            id="room-input"
             label="Room"
             variant="outlined"
-        />
-        <ButtonGroup className={classes.buttonGroup} fullWidth="True">
-            <Button>
-                Create
+            onChange={handleRoomChange}
+          />
+          <ButtonGroup className={classes.buttonGroup} fullWidth="True">
+            <Button component={Link} to={"/taboo/" + room}>
+              Create
             </Button>
-            <Button>
-                Join
+            <Button
+              component={Link}
+              to={"/taboo/" + room}
+              onClick={() => props.setName(name)}
+            >
+              Join
             </Button>
-        </ButtonGroup>
+          </ButtonGroup>
         </Paper>
       </Container>
     </div>
