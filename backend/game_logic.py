@@ -40,8 +40,7 @@ async def lobby(session: Session, socket):
         turn: Turn = Turn(player, session)
         await socket.emit("round_started", room=session.id_)
         await run_turn(turn)
-        await socket.emit("round_ended", {p.name:p.points for p in session.participants.values()}}, room=session.id_)
-    pass
+        await socket.emit("round_ended", {p.name:p.points for p in session.participants.values()}, room=session.id_)
 
 def answer(session: Session, guess: str, name: str) -> bool:
     if is_correct(session.current_turn, guess, session.participants[name], session.current_turn.time_left, ROUND_TIME):
