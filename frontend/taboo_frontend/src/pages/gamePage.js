@@ -1,10 +1,5 @@
-import React from 'react';
+import React from "react";
 
-
-export const GamePage = () => {    
-    return (
-        <div>
-            Game
-        </div>
-    );
+export const GamePage = () => {
+  return <div>Game</div>;
 };

@@ -8,61 +8,61 @@ import {
   TextField,
   Button,
   ButtonGroup,
-} from '@material-ui/core';
-import { Link } from 'react-router-dom';
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 export const API_ENDPOINT = "http://0.0.0.0:5000/";
 
 const useStyles = makeStyles(() => ({
   root: {
-    background: '#535c68',
-    backgroundSize: 'cover',
-    height: '100vh',
-    overflow: 'hidden',
+    background: "#535c68",
+    backgroundSize: "cover",
+    height: "100vh",
+    overflow: "hidden",
   },
   containerItems: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   paperLayout: {
-    width: '50%',
-    margin: '15%',
-    display: 'flex',
-    flexDirection: 'column',
-    textAlign: 'center',
-    alignItems: 'center',
-    color: '#130f40',
+    width: "50%",
+    margin: "15%",
+    display: "flex",
+    flexDirection: "column",
+    textAlign: "center",
+    alignItems: "center",
+    color: "#130f40",
   },
   buttonLogin: {
-    margin: '5%',
+    margin: "5%",
   },
   textInput: {
-    width: '75%',
-    marginTop: '2.5%',
-    marginBottom: '2.5%'
+    width: "75%",
+    marginTop: "2.5%",
+    marginBottom: "2.5%",
   },
   title: {
-    margin: '5%',
+    margin: "5%",
   },
   buttonGroup: {
-      width: '75%',
-      marginTop: '2.5%',
-      marginBottom: '5%',
-  }
+    width: "75%",
+    marginTop: "2.5%",
+    marginBottom: "5%",
+  },
 }));
 
-export const HomePage = props => {
+export const HomePage = (props) => {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const history = useHistory();
 
-  const handleNameChange = event => {
+  const handleNameChange = (event) => {
     setName(event.target.value);
-  }
-    
-  const handleRoomChange = event => {
+  };
+
+  const handleRoomChange = (event) => {
     setRoom(event.target.value);
   }
 
@@ -96,8 +96,8 @@ export const HomePage = props => {
             label="Name"
             variant="outlined"
             onChange={handleNameChange}
-        />
-        <TextField
+          />
+          <TextField
             className={classes.textInput}
             id="room-input"
             label="Room"
@@ -108,10 +108,14 @@ export const HomePage = props => {
             <Button onClick={createRoom} >
                 Create
             </Button>
-            <Button component={Link} to={room} onClick={() => props.setName(name)}>
-                Join
+            <Button
+              component={Link}
+              to={"/taboo/" + room}
+              onClick={() => props.setName(name)}
+            >
+              Join
             </Button>
-        </ButtonGroup>
+          </ButtonGroup>
         </Paper>
       </Container>
     </div>

@@ -33,4 +33,4 @@ export const PlayPage = props => {
     }
     // is connecting
     return <div>Connecting...</div>
-};
+}
