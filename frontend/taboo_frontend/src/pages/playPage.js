@@ -6,7 +6,7 @@ import { WinPage } from "./winPage";
 
 export const PlayPage = (props) => {
   const name = props.name;
-  const route = useRouteMatch("/:id");
+  const route = useRouteMatch("/taboo/:id");
 
   const [state, setState] = useState("lobby");
 

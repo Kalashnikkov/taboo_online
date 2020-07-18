@@ -84,12 +84,12 @@ export const HomePage = (props) => {
             onChange={handleRoomChange}
           />
           <ButtonGroup className={classes.buttonGroup} fullWidth="True">
-            <Button component={Link} to={room}>
+            <Button component={Link} to={"/taboo/" + room}>
               Create
             </Button>
             <Button
               component={Link}
-              to={room}
+              to={"/taboo/" + room}
               onClick={() => props.setName(name)}
             >
               Join
