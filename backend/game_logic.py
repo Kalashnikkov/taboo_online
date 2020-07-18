@@ -1,6 +1,5 @@
 from asyncio import Event, wait, sleep, FIRST_COMPLETED
 from json import dumps
-from flask_socketio import send
 from typing import Dict, List
 
 from functions import is_correct, random_word_and_taboo_words, words_list, get_words
@@ -33,15 +32,15 @@ async def run_turn(turn: Turn):
             turn.answer_event.clear()
             continue
 
-async def lobby(session: Session):
+async def lobby(session: Session, socket):
     await session.started.wait()
     print(f"Started session {session.id_}")
     for p in session.participants.keys():
         player: Player = session.participants[p]
         turn: Turn = Turn(player, session)
-        send(dumps({"round_started": {}}), json=True, room=session.id_)
+        await socket.emit("round_started", room=session.id_)
         await run_turn(turn)
-        send(dumps({"round_ended": {p.name:p.points for p in session.participants.values()}}), json=True, room=session.id_)
+        await socket.emit("round_ended", {p.name:p.points for p in session.participants.values()}}, room=session.id_)
     pass
 
 def answer(session: Session, guess: str, name: str) -> bool:

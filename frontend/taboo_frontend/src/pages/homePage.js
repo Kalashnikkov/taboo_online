@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-const API_ENDPOINT = "http://0.0.0.0:5000/";
+export const API_ENDPOINT = "http://0.0.0.0:5000/";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -78,7 +78,7 @@ export const HomePage = props => {
         console.error("Could not find that room");
       } else {
         const data = await resp.json();
-        history.push(`/join/${data.id}`);
+        history.push(`/${data.id}`);
       }
     })
   }
