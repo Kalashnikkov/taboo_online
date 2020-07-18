@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
   Container,
@@ -9,6 +10,8 @@ import {
   ButtonGroup,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+
+const API_ENDPOINT = "http://0.0.0.0:5000/";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -53,6 +56,7 @@ export const HomePage = props => {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
+  const history = useHistory();
 
   const handleNameChange = event => {
     setName(event.target.value);
@@ -60,7 +64,24 @@ export const HomePage = props => {
     
   const handleRoomChange = event => {
     setRoom(event.target.value);
-}
+  }
+
+  const createRoom = _ => {
+    fetch(API_ENDPOINT+"host", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: name })
+    }).then(async (resp) => {
+      if (resp.status === 404) {
+        console.error("Could not find that room");
+      } else {
+        const data = await resp.json();
+        history.push(`/join/${data.id}`);
+      }
+    })
+  }
 
   return (
     <div className={classes.root}>
@@ -84,7 +105,7 @@ export const HomePage = props => {
             onChange={handleRoomChange}
         />
         <ButtonGroup className={classes.buttonGroup} fullWidth="True">
-            <Button component={Link} to={room}>
+            <Button onClick={createRoom} >
                 Create
             </Button>
             <Button component={Link} to={room} onClick={() => props.setName(name)}>

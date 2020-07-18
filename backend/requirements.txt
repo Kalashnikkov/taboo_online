@@ -1,3 +1,4 @@
-flask
+sanic
+sanic_cors
 flask_socketio
 eventlet

@@ -1,33 +1,37 @@
 import asyncio
 from asyncio import Event
-from typing import Dict, List
-from flask import Flask, jsonify, request, Response
+from sanic import Sanic, request
+from sanic.response import json, text
+from sanic_cors import CORS
 from flask_socketio import SocketIO, join_room, leave_room, send
-from uuid import uuid4
 from json import dumps
+from typing import Dict, List
+from uuid import uuid4
 
 from game_logic import lobby, answer
 from functions import is_correct
 from models import Player, Session
 
-app = Flask(__name__)
-socket = SocketIO(app)
+app = Sanic(__name__)
+CORS(app)
+socket = SocketIO()
 
 sessions: Dict[str, Session] = {}
 
 @app.route('/')
-def index() -> str:
-    return "Hello, World"
+def index(request) -> str:
+    return text("Hello, World")
 
 @app.route('/host', methods=["POST"])
-def host() -> str:
-    if type((data := request.get_json())) == dict:
+def host(request) -> str:
+    data = request.json
+    if type(data) == dict:
         name = data["name"]
         id_ = str(uuid4())
         session = Session(id_, name, id_)
         sessions[id_] = session
         asyncio.create_task(lobby(session))
-        return f"{id_}"
+        return json({"id": id_})
     else:
         return "ERROR"
 
@@ -40,8 +44,8 @@ def host() -> str:
 #     return Response(f"You joined {session.name}")
 
 @app.route('/list')
-def list_handler() -> str:
-    return jsonify([s.name for s in sessions.values()])
+def list_handler(request) -> str:
+    return json([s.name for s in sessions.values()])
 
 @socket.on('join')
 def on_join(data):
@@ -77,4 +81,4 @@ def on_answer(data):
 
 
 if __name__ == '__main__':
-    socket.run(app, host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=5000)

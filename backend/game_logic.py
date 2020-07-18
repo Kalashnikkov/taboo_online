@@ -22,7 +22,6 @@ class Turn:
 
 async def timer_routine() -> None:
     await sleep(delay=60)
-    pass
 
 async def run_turn(turn: Turn):
     timer = timer_routine()
