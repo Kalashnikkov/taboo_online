@@ -26,7 +26,7 @@ async def timer_routine() -> None:
 
 async def run_turn(turn: Turn):
     timer = timer_routine()
-    for _ in range(len(turn.unanswered) + len(turn.answered)):
+    while True:
         done, _ = await wait([turn.answer_event.wait(), timer], return_when=FIRST_COMPLETED)
         if done is None:
             break
