@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   makeStyles,
   Container,
@@ -51,6 +51,17 @@ const useStyles = makeStyles(() => ({
 
 export const HomePage = () => {
   const classes = useStyles();
+  const [name, setName] = useState("");
+  const [room, setRoom] = useState("");
+
+  const handleNameChange = event => {
+    setName(event.target.value);
+  }
+    
+  const handleRoomChange = event => {
+    setRoom(event.target.value);
+}
+
   return (
     <div className={classes.root}>
       <Container className={classes.containerItems}>
@@ -60,21 +71,23 @@ export const HomePage = () => {
           </Typography>
           <TextField
             className={classes.textInput}
-            id="outlined-helperText"
+            id="name-input"
             label="Name"
             variant="outlined"
+            onChange={handleNameChange}
         />
         <TextField
             className={classes.textInput}
-            id="outlined-helperText"
+            id="room-input"
             label="Room"
             variant="outlined"
+            onChange={handleRoomChange}
         />
         <ButtonGroup className={classes.buttonGroup} fullWidth="True">
-            <Button component={Link} to="/hello">
+            <Button component={Link} to={room}>
                 Create
             </Button>
-            <Button>
+            <Button component={Link} to={room}>
                 Join
             </Button>
         </ButtonGroup>
