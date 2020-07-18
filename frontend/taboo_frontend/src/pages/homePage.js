@@ -8,6 +8,7 @@ import {
   Button,
   ButtonGroup,
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -70,7 +71,7 @@ export const HomePage = () => {
             variant="outlined"
         />
         <ButtonGroup className={classes.buttonGroup} fullWidth="True">
-            <Button>
+            <Button component={Link} to="/hello">
                 Create
             </Button>
             <Button>

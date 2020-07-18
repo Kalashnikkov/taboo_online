@@ -1,5 +1,6 @@
 import React from 'react';
 import { HomePage } from './pages/homePage';
+import { PlayPage } from './pages/playPage';
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,8 +10,11 @@ import {
 
 function App() {
   return (
-    <Router>  
-          <HomePage/>
+    <Router>
+      <Switch>
+        <HomePage exact path='/'/>
+        <PlayPage exact path='/:id'/>
+      </Switch>
     </Router>
   );
 }
