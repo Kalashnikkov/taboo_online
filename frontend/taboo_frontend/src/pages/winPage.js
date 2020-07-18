@@ -4,7 +4,6 @@ import {
   Container,
   Paper,
   Typography,
-  TextField,
   Button,
   ButtonGroup,
 } from '@material-ui/core';
@@ -55,26 +54,14 @@ export const WinPage = () => {
       <Container className={classes.containerItems}>
         <Paper elevation={3} className={classes.paperLayout}>
           <Typography className={classes.title} component="h3" variant="h2">
-            Taboo!
+            Player_1 wins!
           </Typography>
-          <TextField
-            className={classes.textInput}
-            id="outlined-helperText"
-            label="Name"
-            variant="outlined"
-        />
-        <TextField
-            className={classes.textInput}
-            id="outlined-helperText"
-            label="Room"
-            variant="outlined"
-        />
-        <ButtonGroup className={classes.buttonGroup} fullWidth="True">
+        <ButtonGroup className={classes.buttonGroup} fullWidth="True" >
             <Button>
-                Create
+                Quit
             </Button>
             <Button>
-                Join
+                Play Again
             </Button>
         </ButtonGroup>
         </Paper>
