@@ -1,10 +1,10 @@
 import React from 'react';
-import { WinPage } from './pages/winPage';
+import { LobbyPage } from './pages/lobbyPage';
 
 function App() {
   return (
     <div>
-      <WinPage/>
+      <LobbyPage/>
     </div>
   );
 }
