@@ -80,7 +80,8 @@ playerList: {
 
 }));
 
-export const LobbyPage = () => {
+export const LobbyPage = (props) => {
+  const names = props.names
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -104,15 +105,7 @@ export const LobbyPage = () => {
         </Paper>
         <Paper elevation={0} className={classes.thirdPaperLayout} style={{maxHeight: 250, overflow: 'auto'}} >
         <Typography className={classes.playerList} component="h5" variant="h4">
-            <ul>name test</ul>
-            <ul>name test</ul>
-            <ul>wowee</ul>
-            <ul>congratz</ul>
-            <ul>funny</ul>
-            <ul>sometimes</ul>
-            <ul>birthday</ul>
-            <ul>homepage</ul>
-            <ul>exciting</ul>
+          <ul>{names.map(name => <li>{name}</li>)}</ul>
         </Typography>
         </Paper>
         <ButtonGroup className={classes.buttonGroup} fullWidth="True" >

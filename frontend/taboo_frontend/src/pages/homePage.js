@@ -72,13 +72,14 @@ export const HomePage = (props) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: name })
+      body: JSON.stringify({ name, id: room })
     }).then(async (resp) => {
       if (resp.status === 404) {
         console.error("Could not find that room");
       } else {
         const data = await resp.json();
-        history.push(`/${data.id}`);
+        window.localStorage.setItem("name", name)
+        history.push(`/taboo/${data.id}`);
       }
     })
   }
@@ -111,7 +112,7 @@ export const HomePage = (props) => {
             <Button
               component={Link}
               to={"/taboo/" + room}
-              onClick={() => props.setName(name)}
+              onClick={() => window.localStorage.setItem("name", name) }
             >
               Join
             </Button>

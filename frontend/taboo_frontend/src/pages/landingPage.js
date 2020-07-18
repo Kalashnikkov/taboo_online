@@ -28,7 +28,6 @@ export const LandingPage = () => {
         <Grid container spacing={1}>
           <Grid
             container
-            container
             direction="row"
             justify="center"
             alignItems="center"

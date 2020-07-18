@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import socketio from 'socket.io-client';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import { LobbyPage } from './lobbyPage';
 import { GamePage } from './gamePage';
 import { WinPage } from './winPage';
@@ -8,29 +8,45 @@ import { WinPage } from './winPage';
 import { API_ENDPOINT } from './homePage';
 
 export const PlayPage = props => {
-    const name = props.name;
-    const route = useRouteMatch("/:id")
-    const [state, setState] = useState("connecting");
+    const route = useRouteMatch("/taboo/:id")
+    const [state, setState] = useState({ state: "connecting" });
+    const [socket, setSocket] = useState(null)
+    const history = useHistory()
     const id = route.params.id;
+    const name = window.localStorage.getItem("name");
 
     useEffect(() => {
-        console.log("Not Yet Emitted")
-        const socket = socketio(API_ENDPOINT, {
-            transports: ['websocket', 'polling', 'flashsocket']
-        });
-        socket.on("joined", (data) => setState("lobby"));
-        socket.emit('join', {"name": "client", "id": route.params.id});
-        console.log("Emitted");
-        return () => socket.close();
-    })
+        if (socket == null) {
+            console.log("Not Yet Emitted")
+            const socket_ = socketio(API_ENDPOINT, {
+                transports: ['websocket', 'polling', 'flashsocket']
+            });
+            socket_.on("joined", (data) => setState((old) => {
+                if (old.state !== "lobby") {
+                    return { state: "lobby", names: [data["name"]] }
+                } else if (!old.names.includes(data["name"])) {
+                    return { state: "lobby", names: [...old.names, data["name"]] }
+                }
+                return old
+            }));
+            socket_.on("room-does-not-exist", (_) => setState({state: "redirecting"}))
+            socket_.emit('join', {"name": name, "id": route.params.id})
+            console.log("Emitted");
+            setSocket(socket_)
+        }
+    }, [socket])
 
-    if (state === "game") {
+    if (state.state === "redirecting") {
+        console.log("redirecting")
+        history.push("/taboo")
+        return <div></div>
+    } else if (state.state === "connecting") {
+        return <div>Connecting...</div>
+    } else if (state.state === "game") {
         return <GamePage/>;
-    } else if (state === "win") {
+    } else if (state.state === "win") {
         return <WinPage/>;
-    } else if (state === "lobby") {
-        return <LobbyPage/>;
+    } else if (state.state === "lobby") {
+        return <LobbyPage names={state.names} />;
     }
-    // is connecting
-    return <div>Connecting...</div>
 }

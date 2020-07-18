@@ -24,7 +24,7 @@ def host(request) -> str:
     data = request.json
     if type(data) == dict:
         name = data["name"]
-        id_ = str(uuid4())
+        id_ = data["id"]
         session = Session(id_, name, id_)
         sessions[id_] = session
         asyncio.create_task(lobby(session, socket))
@@ -45,8 +45,10 @@ async def on_join(sid, data):
         session.participants[name] = Player(name)
     except KeyError:
         await socket.emit("room-does-not-exist")
-    socket.enter_room(sid, id_)
     await socket.emit("joined", {"name": name, "is_host": session.host == name}, room=id_)
+    for p in session.participants.values():
+        await socket.emit("joined", {"name": p.name, "is_host": session.host == p.name}, to=sid)
+    socket.enter_room(sid, id_)
 
 @socket.on('start')
 async def on_start(sid, data):
