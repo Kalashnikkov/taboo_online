@@ -1,10 +1,10 @@
 import React from 'react';
-import { HomePage } from './pages/homePage';
+import { WinPage } from './pages/winPage';
 
 function App() {
   return (
     <div>
-      <HomePage/>
+      <WinPage/>
     </div>
   );
 }
