@@ -9,7 +9,7 @@ export const PlayPage = props => {
     const name = props.name;
     const route = useRouteMatch("/:id")
 
-    const [state, setState] = useState("win");
+    const [state, setState] = useState("lobby");
 
     if (state === "game") {
         return <GamePage/>;
