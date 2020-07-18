@@ -121,7 +121,7 @@ export const LobbyPage = () => {
             </Button>
         </ButtonGroup>
         </Paper>
-      </Container>
+        </Container>
     </div>
   );
 };
