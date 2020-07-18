@@ -62,7 +62,9 @@ async def lobby(session: Session, socket):
 async def answer(session: Session, guess: str, name: str) -> bool:
     player = session.participants[name]
     if is_correct(session.current_turn, guess, player, session.current_turn.time_left, ROUND_TIME):
-        await session.current_turn.answers.set(player)
+        await session.current_turn.answers.put(player)
+        print("Correct")
         return True
+    print("Incorrect")
     return False
 

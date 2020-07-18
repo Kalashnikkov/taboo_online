@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   makeStyles,
   Container,
@@ -110,10 +110,16 @@ outsideContainer: {
 
 export const GamePage = props => {
   const classes = useStyles();
+  const [guess, setGuess] = useState("");
+  const [room, setRoom] = useState("");
   const gameState = props.gameState
   const is_speaker = gameState.state === "speaker"
   const words = gameState.words
   const points = Object.entries(JSON.parse(window.sessionStorage.getItem("points")))
+
+  const handleGuessChange = (event) => {
+    setGuess(event.target.value);
+  };
 
   return (
     <div className={classes.root}>
@@ -135,6 +141,7 @@ export const GamePage = props => {
           </Paper>
         </Paper>
       </>}
+      { !is_speaker &&
       <Paper className={classes.outsideContainer}>
       <Paper elevation={0} className={classes.thirdPaperLayout} variant="outlined" square>
             <Typography className={classes.playerList} component="h5" variant="h6">
@@ -158,14 +165,18 @@ export const GamePage = props => {
         </Typography>
         </Paper>
         <form className={classes.textField} noValidate autoComplete="off">
-        <TextField id="outlined-basic" label="Enter your guess" variant="outlined" />
+        <TextField onChange={handleGuessChange} id="outlined-basic" label="Enter your guess" variant="outlined" />
         </form>
         <ButtonGroup className={classes.buttonGroup} fullWidth="True" >
-            <Button variant="contained" className={classes.buttonLogin} color='primary'>
+            <Button onClick={_ => {
+                props.socket.emit("answer", {name:props.name, id: props.id, guess})
+              }}
+              variant="contained" className={classes.buttonLogin} color='primary'>
                 Submit
             </Button>
         </ButtonGroup>
       </Paper>
+      }
     </div>
   );
 };

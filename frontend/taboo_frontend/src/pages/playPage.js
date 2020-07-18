@@ -64,7 +64,7 @@ export const PlayPage = props => {
     } else if (state.state === "connecting") {
         return <div>Connecting...</div>
     } else if (state.state === "game") {
-        return <GamePage gameState={gameState} />;
+        return <GamePage gameState={gameState} socket={socket} name={name} id={id} />;
     } else if (state.state === "win") {
         return <WinPage/>;
     } else if (state.state === "lobby") {
