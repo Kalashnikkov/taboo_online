@@ -27,10 +27,12 @@ def next_player(player_list: list, previous_index: int):
 
 def is_correct(current_turn, guess: str, guessing_player: Player, time_left: int, total_time: int):
     if current_turn.current_word == guess.lower():
-        guessing_player.points += (time_left/total_time) * 100
-        current_turn.answered_players.append(Player)
-        current_turn.unanswered_players.remove(Player)
-        current_turn.current_speaker.points += (time_left/total_time) * 100
+        # guessing_player.points += (time_left/total_time) * 100
+        # current_turn.answered_players.append(Player)
+        # current_turn.unanswered_players.remove(Player)
+        # current_turn.current_speaker.points += (time_left/total_time) * 100
+        guessing_player.points += 1
+        current_turn.current_speaker.points += 1
         return True
     else:
         return False

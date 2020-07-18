@@ -108,34 +108,39 @@ outsideContainer: {
 
 }));
 
-export const GamePage = () => {
+export const GamePage = props => {
   const classes = useStyles();
+  const gameState = props.gameState
+  const is_speaker = gameState.state === "speaker"
+  const words = gameState.words
+  const points = Object.entries(JSON.parse(window.sessionStorage.getItem("points")))
+
   return (
     <div className={classes.root}>
-      <Paper className={classes.outsideContainer}>
-        <Paper elevation={0} className={classes.firstPaperLayout} variant="outlined" square>
-            <Typography className={classes.playerList} component="h5" variant="h6">
-                <ul>Illinois</ul>
-            </Typography>
+      { is_speaker && <>
+        <Paper className={classes.outsideContainer}>
+          <Paper elevation={0} className={classes.firstPaperLayout} variant="outlined" square>
+              <Typography className={classes.playerList} component="h5" variant="h6">
+                  {words.correct}
+              </Typography>
+          </Paper>
+          <Paper elevation={0} className={classes.secondPaperLayout} variant="outlined" square>
+              <Typography className={classes.playerList} component="h5" variant="h6">
+                {
+                  words.banned.map(word => {
+                    return <><span>{word}</span><br/></>
+                  })
+                }
+              </Typography>
+          </Paper>
         </Paper>
-        <Paper elevation={0} className={classes.secondPaperLayout} variant="outlined" square>
-            <Typography className={classes.playerList} component="h5" variant="h6">
-            <ul>Chicago</ul>
-            <br></br>
-            <ul>Midwest</ul>
-            <br></br>
-            <ul>Wisconsin</ul>
-            <br></br>
-            <ul>Indiana</ul>
-            <br></br>
-            <ul>State</ul>
-            </Typography>
-        </Paper>
-      </Paper>
+      </>}
       <Paper className={classes.outsideContainer}>
       <Paper elevation={0} className={classes.thirdPaperLayout} variant="outlined" square>
             <Typography className={classes.playerList} component="h5" variant="h6">
-                <ul>Taboo!</ul>
+              {is_speaker && "You are the speaker!"}
+              {gameState.state === "ended" && "The turn has ended!"}
+              {gameState.state === "started" && "Guess the word!"}
             </Typography>
         </Paper>
         <Typography className={classes.scores} component="h5" variant="h6">
@@ -145,14 +150,11 @@ export const GamePage = () => {
         </Typography>
         <Paper elevation={0} className={classes.fourthPaperLayout} style={{maxHeight: 250, overflow: 'auto'}} >
         <Typography className={classes.playerList} component="h5" variant="h6">
-            <ul>rob: 72</ul>
-            <ul>bob: 62</ul>
-            <ul>knob: 52</ul>
-            <ul>tob: 42</ul>
-            <ul>fob: 32</ul>
-            <ul>zob: 22</ul>
-            <ul>blob: 12</ul>
-            <ul>sob: 0</ul>
+          {
+            points.map(([name, point], _i, _a) => {
+            return <><span>{`${name}: ${point}`}</span><br/></>
+            })
+          }
         </Typography>
         </Paper>
         <form className={classes.textField} noValidate autoComplete="off">

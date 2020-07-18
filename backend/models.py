@@ -3,9 +3,10 @@ from typing import Dict, List
 
 
 class Player:
-    def __init__(self, name: str):
+    def __init__(self, name: str, sid):
         self.name: str = name
         self.points: int = 0
+        self.sid = sid
 
 class Session:
     def __init__(self, id_: str, name: str):

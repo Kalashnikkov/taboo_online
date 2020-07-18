@@ -42,7 +42,7 @@ async def on_join(sid, data):
     name: str = data["name"]
     try:
         session: Session = sessions[id_]
-        session.participants[name] = Player(name)
+        session.participants[name] = Player(name, sid)
     except KeyError:
         await socket.emit("room-does-not-exist")
     await socket.emit("joined", {"name": name, "is_host": session.host == name}, room=id_)
@@ -64,9 +64,7 @@ async def on_answer(sid, data):
     id_: str = data["id"]
     guess: str = data["guess"]
     session = sessions[id_]
-    if name in session.current_turn.unanswered_players and answer(session, guess, name):
-        await socket.emit("answered", room=id_)
-    else:
+    if not await answer(session, guess, name):
         await socket.emit("message", {"message": guess}, room=id_)
 
 if __name__ == '__main__':
